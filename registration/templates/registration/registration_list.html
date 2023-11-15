@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration List</title>
+    <style>
+        body {
+            font-family: 'Tahoma', sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 50px;
+        }
+        h2 {
+            color: #333;
+            border-bottom: 2px solid #333;
+            padding-bottom: 10px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            margin: 10px;
+            padding: 15px;
+            display: inline-block;
+            width: 200px;
+        }
+        li:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease-in-out;
+        }
+        .navigation-buttons {
+            margin-top: 20px;
+        }
+        .navigation-buttons a {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .navigation-buttons a:hover {
+            background-color: #45a049;
+        }
+        .filter-form {
+            margin-top: 20px;
+        }
+    
+        .canceled {
+            background-color: #ffdddd; /* Light red */
+        }
+    
+        .not-canceled {
+            background-color: #ddffdd; /* Light green */
+        }
+    </style>
+    
+</head>
+<body>
+    <h2>Registration List</h2>
+
+    <form class="filter-form" method="get" action="{% url 'registration:registration_list' %}">
+        <label for="filter">Filter:</label>
+        <select name="filter" id="filter">
+            <option value="all">All</option>
+            <option value="canceled">Canceled</option>
+            <option value="not_canceled">Not Canceled</option>
+        </select>
+        <button type="submit">Apply Filter</button>
+    </form>
+
+    <ul>
+        {% for registration in registrations %}
+            <li class="{% if registration.canceled %}canceled{% else %}not-canceled{% endif %}">
+                {{ registration.first_name }} {{ registration.last_name }} - {{ registration.national_id }}
+                {% if registration.canceled %}(Canceled){% else %}(Not canceled){% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+    
+    
+
+    <div class="navigation-buttons">
+        <a href="{% url 'registration:register_form' %}">Registration Form</a>
+        <a href="{% url 'registration:cancel_form' %}">Cancellation Form</a>
+    </div>
+</body>
+</html>
